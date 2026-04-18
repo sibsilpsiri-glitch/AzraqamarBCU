@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อัซราคามาร์ | Azraqamar BCU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ตัวแปรสีและธีม */
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-blue: #0f1b29;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --blue-glow: #1e40af;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, var(--bg-blue) 0%, var(--bg-dark) 70%);
+        }
+
+        /* ปุ่มควบคุมเพลง */
+        #music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(10, 14, 23, 0.8);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            font-size: 0.9rem;
+        }
+
+        #music-btn:hover {
+            background: var(--gold);
+            color: var(--bg-dark);
+        }
+
+        /* ส่วนหัว (Hero Section) */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, transparent 20%, var(--bg-dark) 100%);
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            background: rgba(30, 64, 175, 0.3);
+            border: 1px solid var(--blue-glow);
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: #60a5fa;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* คอนเทนเนอร์หลัก */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* การ์ดเนื้อหา */
+        .section-card {
+            background: rgba(15, 27, 41, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .section-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        h3 {
+            color: var(--gold-light);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* กริดสำหรับการแต่งกาย */
+        .clothing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .clothing-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 3px solid var(--blue-glow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .clothing-grid { grid-template-columns: 1fr; }
+            .section-card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="music-btn" onclick="toggleMusic()">🎵 เล่นเพลงบรรยากาศ</button>
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_731a57ca78.mp3?filename=arabian-night-113094.mp3" type="audio/mpeg">
+    </audio>
+
+    <header>
+        <h1>อัซราคามาร์</h1>
+        <div class="subtitle">นครแห่งพระจันทร์น้ำเงินอันเจริญ</div>
+        <div class="tag">#AzraqamarBCU</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="section-card">
+            <h2>ข้อมูลปฐมภูมิ</h2>
+            <p><strong>ชื่อเมือง:</strong> อัซราคามาร์ (Azraqamar)</p>
+            <p><strong>ความหมาย:</strong> พระจันทร์น้ำเงินอันเจริญ (จากรากศัพท์ Azraq - น้ำเงิน และ Qamar - จันทร์)</p>
+            <p><strong>ปีศักราช:</strong> จันทรศักราชที่ ๑๐๘๙ (ยุคโบราณกาลแห่งอรดิน)</p>
+            <p><strong>สถานที่ตั้ง:</strong> ใจกลางหุบเขาเร้นลับกลางทะเลทราย ที่ซ่อนตัวอยู่หลังพายุทรายลวงตา</p>
+        </div>
+
+        <div class="section-card">
+            <h2>พงศาวดาร และ แหล่งกำเนิด</h2>
+            <p>ในยุคบรรพกาล เมื่อครั้งที่โลกยังเต็มไปด้วยพายุทรายอันโหดร้าย เล่าขานกันว่าดวงจันทร์บนฟากฟ้าได้หลงรักผืนทะเลทรายที่กว้างใหญ่ แต่มิอาจเอื้อมลงมาสัมผัสได้ จึงได้หลั่งน้ำตาออกมาเป็นผลึกสีน้ำเงินขนาดยักษ์ตกลงสู่ใจกลางหุบเขา</p>
+            <p>เมื่อผลึกนั้นกระทบกับพื้นดิน พลังแห่ง <strong>“พระจันทร์สีน้ำเงิน”</strong> ได้เปลี่ยนทรายที่แห้งแล้งให้กลายเป็น <strong>“อรดิน” (Golden Earth)</strong> ดินที่มีประกายทองคำและอุดมสมบูรณ์ น้ำพุสีน้ำเงินบริสุทธิ์ผุดขึ้นรอบผลึกนั้น กลายเป็นโอเอซิสที่ไม่มีวันเหือดแห้ง และนั่นคือจุดกำเนิดของมหานครนามว่า "อัซราคามาร์"</p>
+        </div>
+
+        <div class="section-card">
+            <h2>ลักษณะเมือง และ วิถีชีวิต</h2>
+            <h3>สถาปัตยกรรม (Architecture)</h3>
+            <p>เมืองถูกสร้างขึ้นด้วยหินอ่อนสีขาวบริสุทธิ์ ล้อมรอบด้วยกำแพงที่สลักลวดลายมนตราด้วยดิ้นทองคำ หลังคาของวังและวิหารสำคัญถูกฉาบด้วยสีกระเบื้องไพลิน (Cobalt Blue) ซึ่งจะเรืองแสงสีนวลในยามค่ำคืน มีสวนลอยฟ้าที่ปลูกพืชพรรณเวทมนตร์เลื้อยไปตามระเบียงหิน</p>
+            
+            <h3>เวทมนตร์ (Magic & Mysticism)</h3>
+            <p>พลเมืองที่นี่ผูกพันกับ <strong>"อรดิน"</strong> และ <strong>"วารีนภากาศ"</strong> (น้ำจากแสงจันทร์) พวกเขาสามารถใช้เวทมนตร์บังคับทรายให้กลายเป็นสิ่งก่อสร้าง หรือถักทอแสงจันทร์ให้กลายเป็นเส้นไหมเพื่อทำเครื่องราง เมืองนี้ปกป้องตัวเองด้วย "เวทมนตร์ภาพลวงตา" ทำให้ผู้บุกรุกเห็นเพียงทะเลทรายว่างเปล่า</p>
+
+            <h3>ความเชื่อ (Beliefs)</h3>
+            <p>ปรากฏการณ์ <strong>"คืนจันทร์น้ำเงิน" (The Night of Blue Moon)</strong> คือเทศกาลศักดิ์สิทธิ์ เชื่อกันว่าหากได้อาบน้ำในโอเอซิสใจกลางเมืองในคืนนี้ จะได้รับพรแห่งความเยาว์วัย สติปัญญา และพลังเวทจะพุ่งสูงถึงขีดสุด</p>
+        </div>
+
+        <div class="section-card">
+            <h2>การแต่งกาย (Apparel & Fashion)</h2>
+            <p>สไตล์ของอัซราคามาร์คือ <strong>Luxury Arabian Fantasy</strong> เน้นความโปร่งสบายแต่มั่งคั่ง หรูหราด้วยการซ้อนทับของผ้า (Layering) และเครื่องประดับโลหะ</p>
+            
+            <div class="clothing-grid">
+                <div class="clothing-box">
+                    <h3>บุรุษ (Men)</h3>
+                    <p>สวมเสื้อคลุมยาว (Abaya/Robe) ปักดิ้นทองหรือเงิน มักเปิดหน้าอกเพื่อรับลมทะเลทรายและแสดงรอยสักเวทมนตร์ สวมกางเกงฮาเร็มทรงหลวมพริ้วไหวทำจากผ้าไหม จุดเด่นคือการประดับสร้อยคอหลายชั้น โซ่ทองพาดผ่านลำตัว (Body Chain) และอัญมณีสีไพลินตามข้อมือและข้อเท้า</p>
+                </div>
+                <div class="clothing-box">
+                    <h3>สตรี (Women)</h3>
+                    <p>สวมชุดกระโปรงหรือกางเกงผ้าชีฟองโปร่งแสงที่ทอจากไหมแสงจันทร์ เสื้อท่อนบนเข้ารูปประดับด้วยลูกปัดและคริสตัล มีผ้าคลุมหน้า (Veil) บางเบาที่ซ่อนความเร้นลับ เครื่องประดับศีรษะระย้าห้อยระลงมาถึงหน้าผาก และสวมกำไลข้อเท้าที่มีกระดิ่งทองคำขนาดเล็ก</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; จันทรศักราช ๑๐๘๙ - นครอัซราคามาร์ | Project #AzraqamarBCU</p>
+    </footer>
+
+    <script>
+        // 1. ระบบ Animation เมื่อเลื่อนจอ (Fade-in)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // เล่นครั้งเดียว
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // 2. ระบบควบคุมเพลงประกอบ
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let isPlaying = false;
+
+        // ปรับระดับเสียงให้เบาลงเพื่อเป็นพื้นหลัง
+        music.volume = 0.4; 
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.innerHTML = '🎵 เล่นเพลงบรรยากาศ';
+                musicBtn.style.background = 'rgba(10, 14, 23, 0.8)';
+                musicBtn.style.color = 'var(--gold)';
+            } else {
+                music.play().catch(e => console.log("Audio play failed:", e));
+                musicBtn.innerHTML = '⏸ หยุดเพลง';
+                musicBtn.style.background = 'var(--gold)';
+                musicBtn.style.color = 'var(--bg-dark)';
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
