@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>อัซราคามาร์ | Azraqamar BCU</title>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Azraqamar - อัซราคามาร์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ตัวแปรสีและธีม */
+        /* CSS Variables กำหนดโทนสี น้ำเงิน-ดำ-ทอง */
         :root {
-            --bg-dark: #0a0e17;
-            --bg-blue: #0f1b29;
-            --gold: #d4af37;
-            --gold-light: #f3e5ab;
-            --blue-glow: #1e40af;
+            --bg-color: #050a15; /* ดำอมน้ำเงินลึก */
+            --primary-blue: #0f2c59; /* น้ำเงินไพลิน */
+            --accent-gold: #dac07a; /* ทองคำหรูหรา */
+            --accent-gold-hover: #ebd599;
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
+            --glass-bg: rgba(15, 44, 89, 0.3);
+            --glass-border: rgba(218, 192, 122, 0.2);
         }
 
         * {
@@ -25,265 +26,432 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.8;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 0%, var(--bg-blue) 0%, var(--bg-dark) 70%);
+            /* เพิ่มลวดลายพื้นหลังจางๆ ให้ดูขลัง */
+            background-image: radial-gradient(circle at 50% 0%, var(--primary-blue) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 80%, rgba(218, 192, 122, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
-        /* ปุ่มควบคุมเพลง */
-        #music-btn {
+        /* Scrollbar หรูหรา */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 4px;
+        }
+
+        /* นาวิเกชั่นบาร์ */
+        nav {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(10, 14, 23, 0.8);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 12px 20px;
-            border-radius: 30px;
-            cursor: pointer;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(5, 10, 21, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* ปุ่มเล่นเพลง */
+        .audio-control {
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
             font-size: 0.9rem;
         }
 
-        #music-btn:hover {
-            background: var(--gold);
-            color: var(--bg-dark);
+        .audio-control:hover {
+            background: var(--accent-gold);
+            color: var(--bg-color);
         }
 
-        /* ส่วนหัว (Hero Section) */
+        /* Header / Hero Section */
         header {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 0 2rem;
             position: relative;
-            padding: 20px;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle, transparent 20%, var(--bg-dark) 100%);
-            z-index: -1;
+        .hero-tag {
+            color: var(--accent-gold);
+            font-weight: 600;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            animation: fadeInDown 1s ease-out;
         }
 
-        h1 {
-            font-size: 4rem;
-            color: var(--gold);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+        header h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #dac07a, #ffffff, #dac07a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(218, 192, 122, 0.3);
+            animation: fadeInUp 1.2s ease-out;
         }
 
         .subtitle {
             font-size: 1.2rem;
-            color: var(--gold-light);
-            margin-bottom: 20px;
+            color: var(--text-muted);
+            max-width: 600px;
+            animation: fadeInUp 1.4s ease-out;
         }
 
-        .tag {
-            background: rgba(30, 64, 175, 0.3);
-            border: 1px solid var(--blue-glow);
-            padding: 5px 15px;
-            border-radius: 20px;
-            color: #60a5fa;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        /* คอนเทนเนอร์หลัก */
+        /* Container สำหรับเนื้อหา */
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 5rem 2rem;
         }
 
-        /* การ์ดเนื้อหา */
-        .section-card {
-            background: rgba(15, 27, 41, 0.6);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+        /* Sections แบบ Glassmorphism */
+        .section-glass {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 15px;
-            padding: 40px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+            padding: 3rem;
+            margin-bottom: 4rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        .section-card.visible {
+        .section-glass.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        h2 {
-            color: var(--gold);
-            font-size: 2rem;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding-bottom: 10px;
+        h2.section-title {
+            color: var(--accent-gold);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
             display: inline-block;
         }
 
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50%;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
         h3 {
-            color: var(--gold-light);
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
+            color: #fff;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 0.5rem 0;
         }
 
         p {
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
             text-align: justify;
         }
 
-        /* กริดสำหรับการแต่งกาย */
-        .clothing-grid {
+        /* Grid สำหรับประวัติและข้อมูล */
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 20px;
+            gap: 3rem;
         }
 
-        .clothing-box {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
+        /* Cards สำหรับสถานที่ */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .location-card {
+            background: rgba(15, 44, 89, 0.5);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
             border-radius: 10px;
-            border-left: 3px solid var(--blue-glow);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
-            margin-top: 50px;
+        .location-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(218, 192, 122, 0.1);
+            border-color: var(--accent-gold);
+        }
+
+        .location-card h4 {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ตารางข้อมูลพื้นฐาน */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .info-table th, .info-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            text-align: left;
+        }
+
+        .info-table th {
+            color: var(--accent-gold);
+            width: 30%;
+            font-weight: 500;
+        }
+
+        /* รูปแบบปี */
+        .year-badge {
+            display: inline-block;
+            background: rgba(218, 192, 122, 0.1);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .clothing-grid { grid-template-columns: 1fr; }
-            .section-card { padding: 25px; }
+            header h1 { font-size: 3rem; }
+            .grid-2 { grid-template-columns: 1fr; gap: 2rem; }
+            .nav-links { display: none; } /* ซ่อนเมนูบนมือถือเพื่อความคลีน */
+            nav { justify-content: space-between; }
+            .section-glass { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <button id="music-btn" onclick="toggleMusic()">🎵 เล่นเพลงบรรยากาศ</button>
-    <audio id="bg-music" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_731a57ca78.mp3?filename=arabian-night-113094.mp3" type="audio/mpeg">
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
+    <nav>
+        <div class="logo">Azraqamar</div>
+        <div class="nav-links">
+            <a href="#history">ตำนานเมือง</a>
+            <a href="#locations">สถานที่</a>
+            <a href="#magic">เวทมนตร์และวิถีชีวิต</a>
+            <a href="#culture">การแต่งกาย</a>
+        </div>
+        <button class="audio-control" id="audioBtn" onclick="togglePlay()">เริ่มมนตรา (บรรเลงเพลง)</button>
+    </nav>
+
     <header>
+        <div class="hero-tag">#AzraqamarBCU</div>
         <h1>อัซราคามาร์</h1>
-        <div class="subtitle">นครแห่งพระจันทร์น้ำเงินอันเจริญ</div>
-        <div class="tag">#AzraqamarBCU</div>
+        <p class="subtitle">"นครแห่งพระจันทร์น้ำเงินอันเจริญ รุ่งโรจน์ด้วยอรดิน และขลังด้วยมนตรามหาศาล"</p>
     </header>
 
     <div class="container">
         
-        <div class="section-card">
-            <h2>ข้อมูลปฐมภูมิ</h2>
-            <p><strong>ชื่อเมือง:</strong> อัซราคามาร์ (Azraqamar)</p>
-            <p><strong>ความหมาย:</strong> พระจันทร์น้ำเงินอันเจริญ (จากรากศัพท์ Azraq - น้ำเงิน และ Qamar - จันทร์)</p>
-            <p><strong>ปีศักราช:</strong> จันทรศักราชที่ ๑๐๘๙ (ยุคโบราณกาลแห่งอรดิน)</p>
-            <p><strong>สถานที่ตั้ง:</strong> ใจกลางหุบเขาเร้นลับกลางทะเลทราย ที่ซ่อนตัวอยู่หลังพายุทรายลวงตา</p>
-        </div>
-
-        <div class="section-card">
-            <h2>พงศาวดาร และ แหล่งกำเนิด</h2>
-            <p>ในยุคบรรพกาล เมื่อครั้งที่โลกยังเต็มไปด้วยพายุทรายอันโหดร้าย เล่าขานกันว่าดวงจันทร์บนฟากฟ้าได้หลงรักผืนทะเลทรายที่กว้างใหญ่ แต่มิอาจเอื้อมลงมาสัมผัสได้ จึงได้หลั่งน้ำตาออกมาเป็นผลึกสีน้ำเงินขนาดยักษ์ตกลงสู่ใจกลางหุบเขา</p>
-            <p>เมื่อผลึกนั้นกระทบกับพื้นดิน พลังแห่ง <strong>“พระจันทร์สีน้ำเงิน”</strong> ได้เปลี่ยนทรายที่แห้งแล้งให้กลายเป็น <strong>“อรดิน” (Golden Earth)</strong> ดินที่มีประกายทองคำและอุดมสมบูรณ์ น้ำพุสีน้ำเงินบริสุทธิ์ผุดขึ้นรอบผลึกนั้น กลายเป็นโอเอซิสที่ไม่มีวันเหือดแห้ง และนั่นคือจุดกำเนิดของมหานครนามว่า "อัซราคามาร์"</p>
-        </div>
-
-        <div class="section-card">
-            <h2>ลักษณะเมือง และ วิถีชีวิต</h2>
-            <h3>สถาปัตยกรรม (Architecture)</h3>
-            <p>เมืองถูกสร้างขึ้นด้วยหินอ่อนสีขาวบริสุทธิ์ ล้อมรอบด้วยกำแพงที่สลักลวดลายมนตราด้วยดิ้นทองคำ หลังคาของวังและวิหารสำคัญถูกฉาบด้วยสีกระเบื้องไพลิน (Cobalt Blue) ซึ่งจะเรืองแสงสีนวลในยามค่ำคืน มีสวนลอยฟ้าที่ปลูกพืชพรรณเวทมนตร์เลื้อยไปตามระเบียงหิน</p>
-            
-            <h3>เวทมนตร์ (Magic & Mysticism)</h3>
-            <p>พลเมืองที่นี่ผูกพันกับ <strong>"อรดิน"</strong> และ <strong>"วารีนภากาศ"</strong> (น้ำจากแสงจันทร์) พวกเขาสามารถใช้เวทมนตร์บังคับทรายให้กลายเป็นสิ่งก่อสร้าง หรือถักทอแสงจันทร์ให้กลายเป็นเส้นไหมเพื่อทำเครื่องราง เมืองนี้ปกป้องตัวเองด้วย "เวทมนตร์ภาพลวงตา" ทำให้ผู้บุกรุกเห็นเพียงทะเลทรายว่างเปล่า</p>
-
-            <h3>ความเชื่อ (Beliefs)</h3>
-            <p>ปรากฏการณ์ <strong>"คืนจันทร์น้ำเงิน" (The Night of Blue Moon)</strong> คือเทศกาลศักดิ์สิทธิ์ เชื่อกันว่าหากได้อาบน้ำในโอเอซิสใจกลางเมืองในคืนนี้ จะได้รับพรแห่งความเยาว์วัย สติปัญญา และพลังเวทจะพุ่งสูงถึงขีดสุด</p>
-        </div>
-
-        <div class="section-card">
-            <h2>การแต่งกาย (Apparel & Fashion)</h2>
-            <p>สไตล์ของอัซราคามาร์คือ <strong>Luxury Arabian Fantasy</strong> เน้นความโปร่งสบายแต่มั่งคั่ง หรูหราด้วยการซ้อนทับของผ้า (Layering) และเครื่องประดับโลหะ</p>
-            
-            <div class="clothing-grid">
-                <div class="clothing-box">
-                    <h3>บุรุษ (Men)</h3>
-                    <p>สวมเสื้อคลุมยาว (Abaya/Robe) ปักดิ้นทองหรือเงิน มักเปิดหน้าอกเพื่อรับลมทะเลทรายและแสดงรอยสักเวทมนตร์ สวมกางเกงฮาเร็มทรงหลวมพริ้วไหวทำจากผ้าไหม จุดเด่นคือการประดับสร้อยคอหลายชั้น โซ่ทองพาดผ่านลำตัว (Body Chain) และอัญมณีสีไพลินตามข้อมือและข้อเท้า</p>
+        <section id="history" class="section-glass">
+            <h2 class="section-title">ปฐมบทแห่งจันทราน้ำเงิน</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>ข้อมูลสารบบนคร</h3>
+                    <table class="info-table">
+                        <tr>
+                            <th>นามเมือง</th>
+                            <td>อัซราคามาร์ (Azraqamar)</td>
+                        </tr>
+                        <tr>
+                            <th>ความหมาย</th>
+                            <td>นครแห่งพระจันทร์น้ำเงินอันเจริญ</td>
+                        </tr>
+                        <tr>
+                            <th>รากศัพท์</th>
+                            <td>Azraq (สีน้ำเงิน) + Qamar (พระจันทร์)</td>
+                        </tr>
+                        <tr>
+                            <th>ศักราชปัจจุบัน</th>
+                            <td>
+                                <div class="year-badge">รัชศกจันทราคราส ปีที่ ๑๐๒๔ (L.E. 1024)</div><br>
+                                นับจากคืนที่ดวงจันทร์หลั่งน้ำตาหยดแรก
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="clothing-box">
-                    <h3>สตรี (Women)</h3>
-                    <p>สวมชุดกระโปรงหรือกางเกงผ้าชีฟองโปร่งแสงที่ทอจากไหมแสงจันทร์ เสื้อท่อนบนเข้ารูปประดับด้วยลูกปัดและคริสตัล มีผ้าคลุมหน้า (Veil) บางเบาที่ซ่อนความเร้นลับ เครื่องประดับศีรษะระย้าห้อยระลงมาถึงหน้าผาก และสวมกำไลข้อเท้าที่มีกระดิ่งทองคำขนาดเล็ก</p>
+                <div>
+                    <h3>พงศาวดารและแหล่งกำเนิด</h3>
+                    <p>ในยุคบรรพกาล เมื่อครั้งที่แผ่นดินยังไร้ซึ่งอารยธรรมและเต็มไปด้วยพายุทรายอันโหดร้าย ตำนานจารึกไว้ว่าดวงจันทร์บนฟากฟ้าได้หลงรักผืนทะเลทรายที่กว้างใหญ่ แต่มิอาจละทิ้งห้วงอวกาศลงมาเคียงคู่ได้ ความรวดร้าวทวีคูณจนท้ายที่สุด ดวงจันทร์ได้หลั่งน้ำตาออกมาเป็นผลึกสีน้ำเงินขนาดยักษ์ตกลงสู่ใจกลางหุบเขาเร้นลับ</p>
+                    <p>เมื่อผลึกจันทรากระทบผืนแผ่นดิน พลังแห่ง <strong>“มนตราจันทร์น้ำเงิน”</strong> ได้แผ่ซ่าน เปลี่ยนผืนทรายที่แห้งแล้งให้กลายเป็น <strong>“อรดิน” (Golden Earth)</strong> ดินที่มีประกายทองคำและอุดมสมบูรณ์สูงสุด น้ำพุสีไพลินบริสุทธิ์ผุดขึ้นรอบผลึกนั้น ก่อกำเนิดเป็นโอเอซิสที่ไม่มีวันเหือดแห้ง ผู้คนที่รอนแรมมาพบเข้าจึงตั้งรกราก สร้างวิหารและปราการรอบโอเอซิส สถาปนานคร "อัซราคามาร์" ขึ้นนับแต่นั้น</p>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section id="locations" class="section-glass">
+            <h2 class="section-title">ผังเมืองและสถานที่สำคัญ</h2>
+            <p>อัซราคามาร์ ถูกสร้างขึ้นด้วยสถาปัตยกรรมที่วิจิตรบรรจง อาคารบ้านเรือนสลักเสลาจากหินทรายสีขาวสะอาดตา ตัดกับหลังคาโดมสีไพลิน (Cobalt Blue) ที่ประดับด้วยกระเบื้องเคลือบสลับสี (Zellige) สะท้อนแสงอาทิตย์ในยามทิวา และเรืองแสงมนตราในยามราตรี</p>
+            
+            <div class="locations-grid">
+                <div class="location-card">
+                    <h4>โดมจันทรา (The Moon Dome)</h4>
+                    <p>พระราชวังและวิหารศักดิ์สิทธิ์ศูนย์กลางของเมือง หลังคาโดมสร้างจากผลึกไพลินบริสุทธิ์ เป็นสถานที่รับพลังงานจากแสงจันทร์ และเป็นที่ประกอบพิธีกรรมของเหล่านักบวช</p>
+                </div>
+                <div class="location-card">
+                    <h4>ตลาดมนตรา (The Mystical Bazaar)</h4>
+                    <p>ศูนย์กลางการค้าที่คึกคักที่สุดในคาบสมุทร เต็มไปด้วยผ้าไหมแสงจันทร์ อาวุธที่ตีจากอรดิน เครื่องเทศหายาก และเครื่องรางที่บรรจุพลังธาตุ ซ่อนอยู่ภายใต้ม่านม่านเงาแห่งตรอกซอกซอย</p>
+                </div>
+                <div class="location-card">
+                    <h4>สวนลอยฟ้าอรดิน (Golden Hanging Gardens)</h4>
+                    <p>สวนพฤกษชาติที่ปลูกลดหลั่นตามระเบียงหินสูง พืชพรรณที่นี่เติบโตจากดินสีทอง ให้ผลผลิตเป็นอัญมณีและสมุนไพรเวทมนตร์ มีสายน้ำตกสีครามไหลหล่อเลี้ยงตลอดปี</p>
+                </div>
+                <div class="location-card">
+                    <h4>ลานทรายประกายดาว (Stardust Square)</h4>
+                    <p>ลานกว้างหน้ากำแพงเมืองชั้นใน ที่ซึ่งเม็ดทรายจะเปล่งประกายระยิบระยับราวกับหมู่ดาวเมื่อถูกสายลมพัดผ่าน เป็นจุดรวมพลและลานประลองเวทของผู้ใช้ธาตุ</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="magic" class="section-glass">
+            <h2 class="section-title">วิถีแห่งอรดินและมนตราจันทรา</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>พลังเวทและสายอาชีพ</h3>
+                    <p>ชาวอัซราคามาร์ดำรงชีวิตด้วยการผสานธรรมชาติเข้ากับเวทมนตร์ แบ่งผู้ใช้พลังออกเป็นสองสายหลัก:</p>
+                    <ul>
+                        <li><strong>ผู้ใช้อรดิน (Earth-Shapers):</strong> ผู้มีพรสวรรค์ในการสื่อสารกับปฐพี สามารถควบคุมทรายให้กลายเป็นกำแพงหิน หรือสกัดแร่ทองคำจากผืนดินได้ด้วยมือเปล่า พวกเขาคือสถาปนิกและนักรบแนวหน้าของเมือง</li>
+                        <li><strong>นักบวชจันทร์น้ำเงิน (Moon-Priests & Weavers):</strong> ผู้ดึงพลังจากแสงจันทร์มาใช้ในการเยียวยา ทำนายอนาคต และสร้างกำแพงภาพลวงตาปกป้องเมือง ศิลปะขั้นสูงคือการ "ทอแสงจันทร์" ให้กลายเป็นเส้นด้ายสำหรับสร้างอาภรณ์เวทมนตร์</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>ความเชื่อ: คืนจันทร์น้ำเงินรำลึก</h3>
+                    <p>ศาสนาและความเชื่อของเมืองผูกพันกับรอบโคจรของดวงจันทร์ เทศกาลที่สำคัญที่สุดคือ <strong>"คืนจันทร์น้ำเงิน (The Night of the Blue Moon)"</strong> ซึ่งจะเกิดขึ้นทุกๆ สี่ปีศักราช</p>
+                    <p>ในคืนนั้น ดวงจันทร์บนฟ้าจะทอแสงสีไพลินสอดประสานกับโดมจันทรา พลังเวทในเมืองจะพุ่งขึ้นถึงขีดสุด พลเมืองจะสวมชุดสีขาวและเครื่องประดับทองคำ มารวมตัวกันที่โอเอซิสเพื่ออาบน้ำศักดิ์สิทธิ์ เชื่อกันว่าผู้ใดที่ได้รับละอองน้ำในคืนนี้ จะได้รับพรแห่งความเยาว์วัย สติปัญญา และชะล้างคำสาปทั้งปวง</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="culture" class="section-glass">
+            <h2 class="section-title">อาภรณ์และเครื่องประดับ</h2>
+            <p>แฟชั่นแห่งอัซราคามาร์เน้นความโปร่งสบายเพื่อรับมือกับอากาศทะเลทราย แต่แฝงไว้ด้วยความหรูหราโอ่อ่า เครื่องประดับคือตัวบ่งบอกฐานะและพลังเวท โทนสีหลักที่ใช้คือ ทองคำ (Gold), น้ำเงินไพลิน (Sapphire), ขาวนวล (Ivory) และ ดำสนิท (Midnight Black)</p>
+            
+            <div class="grid-2">
+                <div>
+                    <h3>บุรุษเพศ (Masculine Attire)</h3>
+                    <p>เน้นความสง่างามที่แฝงความแข็งแกร่ง สวมเสื้อคลุมยาว (Robe/Abaya) ปักดิ้นทองที่ชายผ้า มักเปิดเผยแผงอกหรือสวมเพียงผ้าคาดเอว (Sash) กว้างทับกางเกงทรงฮาเร็ม (Harem Pants) ที่พริ้วไหว จุดเด่นคือ <strong>"โซ่ตรวนแห่งเกียรติยศ"</strong> (Body Chains) โซ่ทองคำหรือสายลูกปัดไพลินที่พาดพันรอบลำตัวและหน้าอก สวมกำไลข้อมือและข้อเท้าโลหะสลักลายเวท รองเท้าหัวแหลมปลายงอน</p>
+                </div>
+                <div>
+                    <h3>สตรีเพศ (Feminine Attire)</h3>
+                    <p>เน้นความพลิ้วไหวและลึกลับ สวมชุดเดรสยาวหรือเสื้อครอปท็อปคู่กับกระโปรงผ่าสูง ทำจาก "ผ้าไหมแสงจันทร์" ที่มีลักษณะกึ่งโปร่งแสง ประดับด้วยเข็มขัดโลหะทองคำหลายชั้น (Layered Gold Belts) ที่เอว สวม <strong>"ผ้าคลุมหน้ามนตรา"</strong> (Veil of Mystery) ที่ประดับด้วยอัญมณีระย้าลงมาปรกใบหน้าครึ่งล่าง นิยมเดินเท้าเปล่าบนผืนทราย หรือสวมเพียงสร้อยข้อเท้า (Anklets) ที่มีกระดิ่งเสียงใส</p>
+                </div>
+            </div>
+        </section>
 
     </div>
 
-    <footer>
-        <p>&copy; จันทรศักราช ๑๐๘๙ - นครอัซราคามาร์ | Project #AzraqamarBCU</p>
-    </footer>
-
     <script>
-        // 1. ระบบ Animation เมื่อเลื่อนจอ (Fade-in)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // เล่นครั้งเดียว
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.section-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        // 2. ระบบควบคุมเพลงประกอบ
-        const music = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
+        // ฟังก์ชันควบคุมเสียงเพลงประกอบ
+        const bgMusic = document.getElementById('bgMusic');
+        const audioBtn = document.getElementById('audioBtn');
         let isPlaying = false;
 
-        // ปรับระดับเสียงให้เบาลงเพื่อเป็นพื้นหลัง
-        music.volume = 0.4; 
+        // ตั้งค่าระดับเสียงเริ่มต้นให้เบาลง (20%) เพื่อไม่ให้รบกวนเกินไป
+        bgMusic.volume = 0.2;
 
-        function toggleMusic() {
+        function togglePlay() {
             if (isPlaying) {
-                music.pause();
-                musicBtn.innerHTML = '🎵 เล่นเพลงบรรยากาศ';
-                musicBtn.style.background = 'rgba(10, 14, 23, 0.8)';
-                musicBtn.style.color = 'var(--gold)';
+                bgMusic.pause();
+                audioBtn.innerText = "เริ่มมนตรา (บรรเลงเพลง)";
+                audioBtn.style.background = "transparent";
+                audioBtn.style.color = "var(--accent-gold)";
             } else {
-                music.play().catch(e => console.log("Audio play failed:", e));
-                musicBtn.innerHTML = '⏸ หยุดเพลง';
-                musicBtn.style.background = 'var(--gold)';
-                musicBtn.style.color = 'var(--bg-dark)';
+                bgMusic.play();
+                audioBtn.innerText = "หยุดมนตรา (ปิดเพลง)";
+                audioBtn.style.background = "var(--accent-gold)";
+                audioBtn.style.color = "var(--bg-color)";
             }
             isPlaying = !isPlaying;
         }
+
+        // Animation ตอน Scroll (Intersection Observer)
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.section-glass');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // เมื่อเห็น content 15% ให้แสดงผล
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // รันแค่ครั้งเดียว
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
     </script>
 </body>
 </html>
